@@ -58,15 +58,12 @@ function serverMessage(response2) {
 }
 
 function fetchmsg(){
-  if(flag == 0)
-  {
-    console.log('Coming');
+  console.log('Coming');
     for(var i = 0; i < JSONCities.length; i++) {
       var City = JSONCities[i];
       $('<option value="'+ City.i +'" id="From">' + City.i + '</option>').appendTo($('#MSG')).addClass('new');
     }
-  }
-  else if(flag == 1)
+  if(flag == 1)
   {
 
   }
