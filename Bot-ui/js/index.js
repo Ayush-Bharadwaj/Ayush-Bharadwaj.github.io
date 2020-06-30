@@ -3,7 +3,7 @@ var serverResponse = "QWERTY";
 var flag = 0;
 var JSONCities = [];
     
-$.get( "js/cities.json", function( data){
+$.get( "js/cities.json", function(data){
   JSONCities = JSON.parse(data);
 });
 
@@ -62,7 +62,7 @@ function fetchmsg(){
   {
     for(var i = 0; i < JSONCities.length; i++) {
       var City = JSONCities[i];
-      $('<option value="'+City+'" id="From">' + City + '</option>').appendTo($('#MSG')).addClass('new');
+      $('<option value="'+ City.i +'" id="From">' + City.i + '</option>').appendTo($('#MSG')).addClass('new');
     }
   }
   else if(flag == 1)
