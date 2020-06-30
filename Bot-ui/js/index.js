@@ -2,6 +2,12 @@ var $messages = $('#messages-content');
 var serverResponse = "QWERTY";
 var flag = 0;
 
+var JSONItems = [];
+    $.get( "cities.json", function( data){
+      JSONItems = JSON.parse(data);
+      console.log(JSONItems);
+    });
+
 function listendom(no){
   console.log(no)
   //console.log(document.getElementById(no))
@@ -55,11 +61,7 @@ function serverMessage(response2) {
 function fetchmsg(){
   if(flag == 0)
   {
-    var JSONItems = [];
-    $.get( "cities.json", function( data){
-      JSONItems = JSON.parse(data);
-      console.log(JSONItems);
-    });
+    
   }
   else if(flag == 1)
   {
