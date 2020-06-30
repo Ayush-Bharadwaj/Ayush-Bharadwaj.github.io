@@ -1,11 +1,18 @@
 var $messages = $('#messages-content');
 var serverResponse = "QWERTY";
+var from,to,mot;
 var flag = 0;
-var JSONCities = [];
-    
-$.get( "js/cities.json", function(data){
-  JSONCities = JSON.parse(data);
-});
+var cities = ["Port Blair","Ladakh","Amaravati","Itanagar","Guwahati","Patna","Raipur","Daman","New Delhi","Panaji","Gandhinagar","Chandigarh","Shimla","Srinagar","Ranchi","Bangalore","Thiruvananthapuram","Leh","Kavaratti","Bhopal","Mumbai","Imphal","Shillong","Aizawl","Kohima","Bhubaneswar","Pondicherry","Chandigarh","Jaipur","Gangtok","Chennai","Hyderabad","Agartala","Lucknow","Dehradun","Kolkata"];
+var modeoftravel = ["Flight","Train","Rental Car","Own Car"];
+var avgspeed, ppkm, approxprice, approxtime;
+var i;
+
+if(flag == 0)
+  {
+    for (i = 0; i < cities.length; i++) {
+      $('<option value="'+cities[i]+'" id="From">'+cities[i]+'</option>').appendTo($('#MSG')).addClass('new');
+    }
+  }
 
 function listendom(no){
   console.log(no)
@@ -58,20 +65,84 @@ function serverMessage(response2) {
 }
 
 function fetchmsg(){
-  console.log('Coming');
-    for(var i = 0; i < JSONCities.length; i++) {
-      var City = JSONCities[i];
-      $('<option value="'+ City +'" id="From">' + City + '</option>').appendTo($('#MSG')).addClass('new');
-    }
-  if(flag == 1)
+  if(flag == 0)
   {
-
+    from = $('.form-control').val();
+    var myobj = document.getElementById("MSG");
+    myobj.remove();
+    var myobj = document.getElementById("MSGS");
+    myobj.remove();
+    $('<select class="form-control  col-md-10 col-sm-10 col-9 d-flex" id="MSG" name="MSG" style="margin-bottom: 0;"></select><div class="ml-auto" id="MSGS"><button type="submit" class="btn btn-outline-warning">Send</button></div>').appendTo($('#mess')).addClass('new');
+    setTimeout(function() {
+      serverMessage("Please enter your destination!");
+    }, 500);
+    for (i = 0; i < cities.length; i++) {
+      if(cities[i] == from)
+      {
+        continue;
+      }
+      $('<option value="'+cities[i]+'" id="From">'+cities[i]+'</option>').appendTo($('#MSG')).addClass('new');
+    }
+    flag++;
+  }
+  else if(flag == 1)
+  {
+    to = $('.form-control').val();
+    var myobj = document.getElementById("MSG");
+    myobj.remove();
+    var myobj = document.getElementById("MSGS");
+    myobj.remove();
+    $('<select class="form-control  col-md-10 col-sm-10 col-9 d-flex" id="MSG" name="MSG" style="margin-bottom: 0;"></select><div class="ml-auto" id="MSGS"><button type="submit" class="btn btn-outline-warning">Send</button></div>').appendTo($('#mess')).addClass('new');
+    setTimeout(function() {
+      serverMessage("Please enter your mode of travel!");
+    }, 500);
+    for (i = 0; i < modeoftravel.length; i++) {
+      $('<option value="'+modeoftravel[i]+'" id="From">'+modeoftravel[i]+'</option>').appendTo($('#MSG')).addClass('new');
+    }
+    flag++;
   }
   else if(flag == 2)
   {
-    
+    mot = $('.form-control').val();
+    if(mot == 'Flight'){
+      avgspeed = 500; 
+      ppkm = 3.5;
+    }
+    else if(mot == "Train"){
+      avgspeed = 70;
+      ppkm = 0.7;
+    }
+    else if(mot == "Rental Car"){
+      avgspeed = 80;
+      ppkm = 12;
+    }
+    else if(mot == "Own Car"){
+      avgspeed = 80;
+      ppkm = 4.5;
+    }
+    var myobj = document.getElementById("MSG");
+    myobj.remove();
+    var myobj = document.getElementById("MSGS");
+    myobj.remove();
+    $('<div class="ml-auto" id="MSGS"><button type="submit" class="btn btn-outline-warning">Reset</button></div>').appendTo($('#mess')).addClass('new');
+    setTimeout(function() {
+      serverMessage("According to estimates, you shall:");
+    }, 500);
+    var url = 'http://www.distance24.org/route.json?stops='+from+'|'+to+'';
+    const fetchResult = fetch(url)
+    const response = fetchResult;
+    const jsonData = JSON.parse(response);
+    console.log(jsonData);
+    var distance = jsonData.distance;
+    approxprice = (distance*1.25) * ppkm;
+    approxtime = (distance*1.25) / avgspeed;
+    setTimeout(function() {
+      serverMessage('The approximate price will be'+ approxprice +'');
+      serverMessage('The approximate price will be'+ approxtime +'');
+    }, 500);
+    flag++;
   }
-  else if(flag == 3)
+  if(flag ==3)
   {
 
   }
