@@ -3,7 +3,7 @@ var serverResponse = "QWERTY";
 var flag = 0;
 
 var JSONItems = [];
-    $.get( "cities.json", function( data){
+    $.get( "js/cities.json", function( data){
       JSONItems = JSON.parse(data);
       console.log(JSONItems);
     });
