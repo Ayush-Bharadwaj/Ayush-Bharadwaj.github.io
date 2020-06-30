@@ -27,7 +27,7 @@ $(window).load(function() {
   }, 100);
   setTimeout(function() {
     serverMessage("First of all, Please enter your start location!");
-  }, 500);
+  }, 1500);
 });
 
 function updatescroll(){
@@ -38,9 +38,9 @@ function updatescroll(){
 function insertMessage() {
   msg = $('.form-control').val();
   console.log(msg);
-  /*if ($.trim(msg) == '') {
+  if ($.trim(msg) == '') {
     return false;
-  }*/
+  }
   $('<div class="row"><div class="col d-flex justify-content-end mb-3"><div class="card text-white bg-primary" style="max-height: 4rem; max-width: 20rem;"><div class="card-body" style="padding-left: 0.5rem;padding-top: 0.3rem;padding-right: 0.4rem;padding-bottom: 0.4rem;">' + msg + '</div></div></div></div>').appendTo($('#message-content')).addClass('new');
   fetchmsg() 
   updatescroll();
@@ -124,25 +124,16 @@ function fetchmsg(){
     myobj.remove();
     var myobj = document.getElementById("MSGS");
     myobj.remove();
-    $('<div class="ml-auto" id="MSGS"><button type="submit" class="btn btn-outline-warning">Reset</button></div>').appendTo($('#mess')).addClass('new');
+    $('<div class="ml-auto" id="MSGS"><button type="submit" class="btn btn-outline-warning" onClick="location.reload();">Reset</button></div>').appendTo($('#mess')).addClass('new');
+    serverMessage("According to insights, you shall:");
+    var distance = Math.floor(Math.random() * 3000) + 100;
+    approxprice = Math.floor(distance * ppkm);
+    approxtime = Math.floor(distance / avgspeed);
     setTimeout(function() {
-      serverMessage("According to estimates, you shall:");
-    }, 500);
-    var url = 'https://www.distance24.org/route.json?stops='+from+'|'+to+'';
-    const fetchResult = fetch(url)
-    const response = fetchResult;
-    console.log(response);
-    var distance = fetchResult.distance;
-    approxprice = (distance*1.25) * ppkm;
-    approxtime = (distance*1.25) / avgspeed;
-    setTimeout(function() {
-      serverMessage('The approximate price will be'+ approxprice +'');
-      serverMessage('The approximate price will be'+ approxtime +'');
-    }, 500);
-    flag++;
-  }
-  if(flag ==3)
-  {
-
+      serverMessage('The approximate distance will be '+ distance +'');
+      serverMessage('The approximate price will be '+ approxprice +'');
+      serverMessage('The approximate time will be '+ approxtime +'');
+    }, 1500);
+    flag = 0;
   }
 }
