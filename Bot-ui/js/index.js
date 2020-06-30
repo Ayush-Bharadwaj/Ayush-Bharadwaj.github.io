@@ -128,12 +128,10 @@ function fetchmsg(){
     setTimeout(function() {
       serverMessage("According to estimates, you shall:");
     }, 500);
-    var url = 'http://www.distance24.org/route.json?stops='+from+'|'+to+'';
+    var url = 'https://www.distance24.org/route.json?stops='+from+'|'+to+'';
     const fetchResult = fetch(url)
     const response = fetchResult;
-    const jsonData = JSON.parse(response);
-    console.log(jsonData);
-    var distance = jsonData.distance;
+    var distance = fetchResult.distance;
     approxprice = (distance*1.25) * ppkm;
     approxtime = (distance*1.25) / avgspeed;
     setTimeout(function() {
