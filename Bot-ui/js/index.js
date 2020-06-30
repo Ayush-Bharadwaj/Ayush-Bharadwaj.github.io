@@ -1,12 +1,11 @@
 var $messages = $('#messages-content');
 var serverResponse = "QWERTY";
 var flag = 0;
-
-var JSONItems = [];
-    $.get( "js/cities.json", function( data){
-      JSONItems = JSON.parse(data);
-      console.log(JSONItems);
-    });
+var JSONCities = [];
+    
+$.get( "js/cities.json", function( data){
+  JSONCities = JSON.parse(data);
+});
 
 function listendom(no){
   console.log(no)
@@ -61,7 +60,10 @@ function serverMessage(response2) {
 function fetchmsg(){
   if(flag == 0)
   {
-    
+    for(var i = 0; i < JSONCities.length; i++) {
+      var City = JSONCities[i];
+      $('<option value="'+City+'" id="From">' + City + '</option>').appendTo($('#MSG')).addClass('new');
+    }
   }
   else if(flag == 1)
   {
