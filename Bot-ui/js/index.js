@@ -131,6 +131,7 @@ function fetchmsg(){
     var url = 'https://www.distance24.org/route.json?stops='+from+'|'+to+'';
     const fetchResult = fetch(url)
     const response = fetchResult;
+    console.log(response);
     var distance = fetchResult.distance;
     approxprice = (distance*1.25) * ppkm;
     approxtime = (distance*1.25) / avgspeed;
